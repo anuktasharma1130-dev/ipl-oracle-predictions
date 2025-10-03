@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IPL Oracle Predictions - Single Page</title>
+  <style>
+    :root{--primary:#007BFF;--bg:#f4f4f4}
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:#222}
+    .app{max-width:980px;margin:30px auto;padding:20px}
+    .card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    header h1{margin:0 0 8px}
+    .center{text-align:center}
+    a.fake-link{display:inline-block;margin-top:12px;padding:10px 16px;background:var(--primary);color:#fff;border-radius:6px;text-decoration:none}
+    .hidden{display:none}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0}
+    button.btn{padding:12px 18px;border:none;border-radius:8px;background:var(--primary);color:#fff;cursor:pointer}
+    button.btn.secondary{background:#6c757d}
+    input[type=text],select{padding:10px;border:1px solid #ccc;border-radius:6px;width:100%;box-sizing:border-box}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:640px){.row{grid-template-columns:1fr}}
+    .message{margin-top:14px;font-weight:600;color:#333}
+    .back{margin-top:12px;display:inline-block}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Landing / link page (first code) -->
+    <section id="landing" class="card">
+      <header class="center">
+        <h1>Welcome to IPL Oracle Predictions</h1>
+        <p>Click the button below to open the website (registration → predictions)</p>
+        <a class="fake-link" id="openSite">Open IPL Oracle Predictions</a>
+      </header>
+    </section>
+
+    <!-- Registration page (second code) -->
+    <section id="registration" class="card hidden">
+      <h2 class="center">Registration Page</h2>
+      <div style="max-width:420px;margin:0 auto">
+        <input type="text" id="regName" placeholder="Enter your name" required />
+        <div style="display:flex;gap:8px;margin-top:12px;justify-content:center">
+          <button class="btn" id="continueBtn">Click To Continue</button>
+        </div>
+        <div class="message center">Your Prediction Awaits...!!</div>
+      </div>
+      <div class="center"><a class="back" href="#" id="backToLanding">◀ Back</a></div>
+    </section>
+
+    <!-- Prediction options (third code) -->
+    <section id="options" class="card hidden">
+      <h2 class="center">Choose Your Prediction</h2>
+      <div class="controls">
+        <button class="btn" data-target="winner">Winner Team</button>
+        <button class="btn" data-target="runnerup">Runner-Up Team</button>
+        <button class="btn" data-target="purple">Purple Cap Winner</button>
+        <button class="btn" data-target="orange">Orange Cap Winner</button>
+        <button class="btn" data-target="expensive">Most Expensive Player</button>
+      </div>
+      <div class="center"><a class="back" href="#" id="backToRegistration">◀ Back</a></div>
+    </section>
+
+    <!-- Winner Team form (fourth code) -->
+    <section id="winner" class="card hidden prediction-card">
+      <h2 class="center">Predict the 2026 IPL Winner</h2>
+      <div class="row">
+        <div>
+          <label>Select Team 1:</label>
+          <select id="winnerTeam1"></select>
+        </div>
+        <div>
+          <label>Select Team 2:</label>
+          <select id="winnerTeam2"></select>
+        </div>
+      </div>
+
+      <label style="margin-top:12px">Predicted Team (60:40):</label>
+      <select id="winnerPredicted">
+        <option value="">Select your predicted team</option>
+      </select>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" id="submitWinner">Submit Prediction</button>
+        <button class="btn secondary" id="backFromWinner">Back</button>
+      </div>
+
+      <div class="message" id="winnerResult"></div>
+    </section>
+
+    <!-- Runner-Up form (fifth code) -->
+    <section id="runnerup" class="card hidden prediction-card">
+      <h2 class="center">Predict the 2026 IPL Runner-Up</h2>
+      <div class="row">
+        <div>
+          <label>Select Team 1:</label>
+          <select id="runnerTeam1"></select>
+        </div>
+        <div>
+          <label>Select Team 2:</label>
+          <select id="runnerTeam2"></select>
+        </div>
+      </div>
+
+      <label style="margin-top:12px">Predicted Team:</label>
+      <select id="runnerPredicted">
+        <option value="">Select your predicted team</option>
+      </select>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" id="submitRunner">Submit Prediction</button>
+        <button class="btn secondary" id="backFromRunner">Back</button>
+      </div>
+
+      <div class="message" id="runnerResult"></div>
+    </section>
+
+    <!-- Purple Cap form (sixth code) -->
+    <section id="purple" class="card hidden prediction-card">
+      <h2 class="center">Predict the 2026 IPL Purple Cap Winner</h2>
+      <div class="row">
+        <div>
+          <label>Select Player 1:</label>
+          <select id="purplePlayer1"></select>
+        </div>
+        <div>
+          <label>Select Player 2:</label>
+          <select id="purplePlayer2"></select>
+        </div>
+      </div>
+
+      <p style="margin-top:12px">Prediction Ratio: 60:40</p>
+      <label>Predicted Player:</label>
+      <select id="purplePredicted">
+        <option value="">Select one player</option>
+      </select>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" id="submitPurple">Submit Prediction</button>
+        <button class="btn secondary" id="backFromPurple">Back</button>
+      </div>
+
+      <div class="message" id="purpleResult"></div>
+    </section>
+
+    <!-- Orange Cap form (seventh code) -->
+    <section id="orange" class="card hidden prediction-card">
+      <h2 class="center">Predict the 2026 IPL Orange Cap Winner</h2>
+      <div class="row">
+        <div>
+          <label>Select Player 1:</label>
+          <select id="orangePlayer1"></select>
+        </div>
+        <div>
+          <label>Select Player 2:</label>
+          <select id="orangePlayer2"></select>
+        </div>
+      </div>
+
+      <p style="margin-top:12px">Prediction Ratio: 60:40</p>
+      <label>Predicted Player:</label>
+      <select id="orangePredicted">
+        <option value="">Select one player</option>
+      </select>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" id="submitOrange">Submit Prediction</button>
+        <button class="btn secondary" id="backFromOrange">Back</button>
+      </div>
+
+      <div class="message" id="orangeResult"></div>
+    </section>
+
+    <!-- Most Expensive Player form (eighth code) -->
+    <section id="expensive" class="card hidden prediction-card">
+      <h2 class="center">Predict IPL 2026 Most Expensive Player</h2>
+      <div class="row">
+        <div>
+          <label>Player 1:</label>
+          <select id="expPlayer1"></select>
+        </div>
+        <div>
+          <label>Player 2:</label>
+          <select id="expPlayer2"></select>
+        </div>
+      </div>
+
+      <label style="margin-top:12px">Your Prediction:</label>
+      <select id="expPredicted">
+        <option value="">Select your player</option>
+      </select>
+
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn" id="submitExp">Submit Prediction</button>
+        <button class="btn secondary" id="backFromExp">Back</button>
+      </div>
+
+      <div class="message" id="expResult"></div>
+    </section>
+
+  </div>
+
+  <script>
+    // Data lists (teams and player examples)
+    const teams = [
+      'Chennai Super Kings','Delhi Capitals','Gujarat Titans','Kolkata Knight Riders',
+      'Lucknow Super Giants','Mumbai Indians','Punjab Kings','Rajasthan Royals',
+      'Royal Challengers Bengaluru','Sunrisers Hyderabad'
+    ];
+
+    const players = [
+      'MS Dhoni','Virat Kohli','Rohit Sharma','Jasprit Bumrah','KL Rahul','Shubman Gill',
+      'Jos Buttler','Rishabh Pant','Pat Cummins','Mitchell Starc','Ben Stokes','Sam Curran',
+      'Ishan Kishan','Ruturaj Gaikwad','Kane Williamson','David Warner','Bhuvneshwar Kumar',
+      'Mohammed Shami','Yuzvendra Chahal','Harshal Patel'
+    ];
+
+    // Helper to populate selects
+    function populateSelect(id, items){
+      const sel = document.getElementById(id);
+      sel.innerHTML = items.map(it => `<option value="${it}">${it}</option>`).join('\n');
+    }
+
+    // Initial population for all forms
+    function initAll() {
+      // winner
+      populateSelect('winnerTeam1', teams);
+      populateSelect('winnerTeam2', teams);
+      // runner
+      populateSelect('runnerTeam1', teams);
+      populateSelect('runnerTeam2', teams);
+      // purple/orange/expensive players
+      populateSelect('purplePlayer1', players);
+      populateSelect('purplePlayer2', players);
+      populateSelect('orangePlayer1', players);
+      populateSelect('orangePlayer2', players);
+      populateSelect('expPlayer1', players);
+      populateSelect('expPlayer2', players);
+
+      // wire up dynamic predicted selects
+      ['winner','runner'].forEach(prefix=>{
+        const t1=document.getElementById(prefix+'Team1');
+        const t2=document.getElementById(prefix+'Team2');
+        const pred=document.getElementById(prefix+'Predicted');
+        function update(){
+          pred.innerHTML = `<option value="">Select your predicted team</option>`+
+            `<option value="${t1.value}">${t1.value}</option>`+
+            `<option value="${t2.value}">${t2.value}</option>`;
+        }
+        t1.addEventListener('change',update);
+        t2.addEventListener('change',update);
+        update();
+      });
+
+      // players predicted selects
+      function bindPlayers(p1id,p2id,predid){
+        const p1=document.getElementById(p1id);
+        const p2=document.getElementById(p2id);
+        const predicted=document.getElementById(predid);
+        function update(){
+          predicted.innerHTML = `<option value="">Select one player</option>`+
+            `<option value="${p1.value}">${p1.value}</option>`+
+            `<option value="${p2.value}">${p2.value}</option>`;
+        }
+        p1.addEventListener('change',update);
+        p2.addEventListener('change',update);
+        update();
+      }
+      bindPlayers('purplePlayer1','purplePlayer2','purplePredicted');
+      bindPlayers('orangePlayer1','orangePlayer2','orangePredicted');
+      bindPlayers('expPlayer1','expPlayer2','expPredicted');
+    }
+
+    // Simple show/hide page sections
+    function show(id){
+      document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    // Landing open button -> registration
+    document.getElementById('openSite').addEventListener('click',()=>show('registration'));
+    document.getElementById('backToLanding').addEventListener('click',(e)=>{e.preventDefault();show('landing')});
+    document.getElementById('continueBtn').addEventListener('click',()=>{
+      const name = document.getElementById('regName').value.trim();
+      if(!name){alert('Please enter your name.');return}
+      // store or greet (you can extend)
+      document.getElementById('registration').querySelector('h2').innerText = `Registration Page — Hello, ${name}`;
+      show('options');
+    });
+    document.getElementById('backToRegistration').addEventListener('click',(e)=>{e.preventDefault();show('registration')});
+
+    // Options buttons -> respective forms
+    document.querySelectorAll('#options .btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const target = btn.dataset.target;
+        show(target);
+      });
+    });
+
+    // Back buttons inside prediction cards
+    document.getElementById('backFromWinner').addEventListener('click',()=>show('options'));
+    document.getElementById('backFromRunner').addEventListener('click',()=>show('options'));
+    document.getElementById('backFromPurple').addEventListener('click',()=>show('options'));
+    document.getElementById('backFromOrange').addEventListener('click',()=>show('options'));
+    document.getElementById('backFromExp').addEventListener('click',()=>show('options'));
+
+    // Submit handlers: all show the same result message as in your code
+    function submitHandler(predId, resultId){
+      const sel = document.getElementById(predId);
+      const res = document.getElementById(resultId);
+      if(!sel.value){res.innerText='Please select a prediction.';return}
+      res.innerText = `You chose ${sel.value} on a 60:40 ratio and the result will come after 10:00 PM. Stay tuned to know if you won or not.`;
+    }
+
+    document.getElementById('submitWinner').addEventListener('click',()=>submitHandler('winnerPredicted','winnerResult'));
+    document.getElementById('submitRunner').addEventListener('click',()=>submitHandler('runnerPredicted','runnerResult'));
+    document.getElementById('submitPurple').addEventListener('click',()=>submitHandler('purplePredicted','purpleResult'));
+    document.getElementById('submitOrange').addEventListener('click',()=>submitHandler('orangePredicted','orangeResult'));
+    document.getElementById('submitExp').addEventListener('click',()=>submitHandler('expPredicted','expResult'));
+
+    // initialize
+    initAll();
+    // show landing at start
+    show('landing');
+  </script>
+</body>
+</html>
