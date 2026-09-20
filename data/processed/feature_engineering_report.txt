@@ -1,0 +1,66 @@
+======================================================================
+IPL ORACLE PREDICTIONS - FEATURE ENGINEERING REPORT
+======================================================================
+
+1. PIPELINE OVERVIEW
+  Input matches count:             1234
+  Output matches count:            1234
+  Output feature columns:          30
+  Chronological sort verification: Verified strictly ascending by (date, match_id)
+  Temporal leakage check:          PASSED (features recorded prior to state update)
+
+2. FEATURE DEFINITIONS AND EXPLANATIONS
+  [Pre-Toss Features]
+    - team1: First competing franchise name.
+    - team2: Second competing franchise name.
+    - venue: Stadium name where the match is hosted.
+    - city: City name (cleaned for Dubai/Sharjah venue ground truths).
+    - season: IPL tournament season year.
+    - team1_prior_win_rate: Lifetime win % of Team 1 across all prior IPL matches.
+    - team2_prior_win_rate: Lifetime win % of Team 2 across all prior IPL matches.
+    - team1_last_5_win_rate: Win % of Team 1 across its last <=5 prior matches.
+    - team2_last_5_win_rate: Win % of Team 2 across its last <=5 prior matches.
+    - team1_last_10_win_rate: Win % of Team 1 across its last <=10 prior matches.
+    - team2_last_10_win_rate: Win % of Team 2 across its last <=10 prior matches.
+    - h2h_team1_win_rate: Win % of Team 1 against Team 2 in prior meetings.
+    - h2h_matches_before: Count of prior encounters between Team 1 and Team 2.
+    - team1_venue_win_rate: Win % of Team 1 at this venue prior to match.
+    - team2_venue_win_rate: Win % of Team 2 at this venue prior to match.
+    - venue_matches_before: Total prior IPL matches played at this venue.
+    - venue_chase_win_rate: Win % of teams batting second (chasing) at this venue.
+    - team1_elo: Team 1 Elo rating entering the match (initial 1500.0, K=32).
+    - team2_elo: Team 2 Elo rating entering the match (initial 1500.0, K=32).
+    - elo_diff: team1_elo - team2_elo (symmetric rating advantage).
+    - prior_win_rate_diff: team1_prior_win_rate - team2_prior_win_rate.
+    - last_5_win_rate_diff: team1_last_5_win_rate - team2_last_5_win_rate.
+    - last_10_win_rate_diff: team1_last_10_win_rate - team2_last_10_win_rate.
+    - venue_win_rate_diff: team1_venue_win_rate - team2_venue_win_rate.
+    - team1_home_advantage: +1 if Team 1 is home, -1 if Team 2 is home, 0 if neutral.
+
+  [Post-Toss Additional Features]
+    - team1_toss_winner: 1 if Team 1 won the toss, 0 otherwise.
+    - toss_decision_field: 1 if toss winner chose to field, 0 if bat.
+
+  [Target Variable]
+    - team1_win: 1 if Team 1 won the match, 0 if Team 2 won.
+
+3. HYPERPARAMETERS & CONFIGURATION
+  Initial Elo rating:              1500.0
+  Elo K-factor:                    32.0
+  Recent form window sizes:        5 matches, 10 matches
+  Neutral fallback win rate:       0.5 (used when prior sample is 0)
+
+4. MISSING VALUE HANDLING & COLD START METRICS
+  Matches with no previous H2H:                 83 (defaulted to 0.50)
+  Matches with < 5 previous team matches:       52
+  Matches with < 10 previous team matches:      107
+  Matches with no previous venue history:       60 (defaulted to 0.50)
+  Total NaN values in output feature set:       0
+  Total Inf values in output feature set:       0
+
+5. LEAKAGE PREVENTION CERTIFICATION
+  [x] Features are generated in strict chronological order.
+  [x] Match T features are extracted BEFORE updating match T state.
+  [x] Current match winner, margins, wickets, and player_of_match EXCLUDED from features.
+  [x] Future matches can NEVER affect past match representations.
+======================================================================

@@ -1,0 +1,160 @@
+feature,importance
+team1_elo,0.05434532646693842
+prior_win_rate_diff,0.05219873935873006
+team1_prior_win_rate,0.052153131912722514
+elo_diff,0.05171944431837192
+team2_elo,0.05087141625157629
+team2_prior_win_rate,0.047892878924975416
+venue_chase_win_rate,0.04624068529100153
+venue_matches_before,0.044398394303860826
+venue_win_rate_diff,0.043801543713682715
+h2h_matches_before,0.04227686564205157
+h2h_team1_win_rate,0.03966675634856731
+team1_venue_win_rate,0.03714762766695128
+last_10_win_rate_diff,0.030502113424173773
+team1_last_10_win_rate,0.027138016003835197
+team2_venue_win_rate,0.025366692430135434
+last_5_win_rate_diff,0.0249184411640095
+team2_last_10_win_rate,0.024146564776208378
+team2_last_5_win_rate,0.020008171469760607
+team1_last_5_win_rate,0.019428089244146046
+team1_home_advantage,0.011500037709089563
+season_2013,0.010695924316123592
+toss_decision_field,0.010309676118711903
+team1_toss_winner,0.008299090942322085
+team2_Mumbai Indians,0.006454103965109885
+team1_Mumbai Indians,0.0053852292897907435
+team2_Punjab Kings,0.00530605158849291
+team1_Punjab Kings,0.005110715690740793
+city_Mumbai,0.004898611762963788
+team1_Delhi Capitals,0.004885823148272479
+team2_Kolkata Knight Riders,0.004778016815383406
+team2_Chennai Super Kings,0.004701767179591529
+team2_Delhi Capitals,0.004607307143996331
+season_2012,0.004566368918939882
+team1_Chennai Super Kings,0.004369676409524447
+team2_Royal Challengers Bangalore,0.0042967511518085056
+team1_Royal Challengers Bangalore,0.004166896072470318
+team1_Rajasthan Royals,0.004011417387722811
+team2_Rajasthan Royals,0.003984764465542853
+season_2023,0.003866568166897682
+city_Chennai,0.0038463594753689154
+season_2021,0.003843923813647984
+team1_Kolkata Knight Riders,0.0037688453913916585
+season_2019,0.003545390009469184
+city_Hyderabad,0.0033594801409492473
+season_2022,0.0032972837780408416
+team2_Gujarat Titans,0.003275152693827169
+city_Delhi,0.0031864189206429958
+city_Kolkata,0.003167253558926722
+season_2009/10,0.0031391380045736406
+team2_Sunrisers Hyderabad,0.0030393576798557276
+venue_Eden Gardens,0.003010662184007932
+season_2011,0.002999591351711904
+team1_Sunrisers Hyderabad,0.002977165180855514
+season_2014,0.002948632966332541
+season_2017,0.0029416114736543755
+"venue_MA Chidambaram Stadium, Chepauk",0.0028411548505207695
+team1_Deccan Chargers,0.002714004320138079
+venue_Feroz Shah Kotla,0.002659788968355207
+season_2020/21,0.002646430426034523
+season_2018,0.0025900098584726613
+team1_Lucknow Super Giants,0.0025530824630045448
+season_2015,0.0025391856702536445
+city_Bangalore,0.002463986783055101
+venue_Wankhede Stadium,0.0024083505926120554
+season_2007/08,0.002396262451685759
+city_Jaipur,0.002361340474913457
+city_Abu Dhabi,0.002358174684152176
+season_2016,0.002334525687922919
+"venue_Rajiv Gandhi International Stadium, Uppal",0.002311677178364513
+city_Pune,0.0023099792446692456
+city_Dubai,0.0022493576367082686
+"venue_Wankhede Stadium, Mumbai",0.002151042695291249
+venue_M Chinnaswamy Stadium,0.0021434968558229797
+city_Chandigarh,0.00206445552658053
+season_2009,0.002043486481017139
+venue_Sawai Mansingh Stadium,0.001867431630568453
+venue_Dubai International Cricket Stadium,0.0017700701968538766
+venue_Sheikh Zayed Stadium,0.0016264382703335433
+venue_Sharjah Cricket Stadium,0.0015230052837413438
+city_Sharjah,0.0014815770582583794
+"venue_Punjab Cricket Association Stadium, Mohali",0.0014775322713804812
+"venue_Maharashtra Cricket Association Stadium, Pune",0.001462231700077641
+team2_Deccan Chargers,0.0014425737027296672
+team2_Pune Warriors,0.0014320172789668735
+team1_Pune Warriors,0.001430968356513844
+team1_Gujarat Lions,0.001400588982748143
+city_Ahmedabad,0.001129630551959038
+venue_Maharashtra Cricket Association Stadium,0.0010648363736818257
+venue_Subrata Roy Sahara Stadium,0.0010197228268125054
+team2_Rising Pune Supergiant,0.0010007401480134671
+"venue_Brabourne Stadium, Mumbai",0.0009875850789714884
+team2_Lucknow Super Giants,0.0009281803236392445
+venue_Brabourne Stadium,0.0008995569724530519
+venue_Rajiv Gandhi International Stadium,0.0008466784234909745
+venue_Kingsmead,0.0008237243059455749
+venue_Punjab Cricket Association IS Bindra Stadium,0.0008151001595383625
+"venue_MA Chidambaram Stadium, Chepauk, Chennai",0.0008116672539190141
+city_Visakhapatnam,0.0007831095805029575
+"venue_Dr DY Patil Sports Academy, Mumbai",0.0007822203380943706
+city_Bengaluru,0.0007402485769383578
+city_Durban,0.000731544642906398
+"venue_Narendra Modi Stadium, Ahmedabad",0.0007028136053584881
+venue_New Wanderers Stadium,0.0006829904222664838
+venue_Dr. Y.S. Rajasekhara Reddy ACA-VDCA Cricket Stadium,0.0006822064502188411
+city_Rajkot,0.0006564044279985715
+venue_Arun Jaitley Stadium,0.0006256727216466278
+team1_Rising Pune Supergiant,0.0006185027298227389
+venue_Dr DY Patil Sports Academy,0.0006175781278089737
+team1_Gujarat Titans,0.0005828170482128095
+venue_Barabati Stadium,0.0005792439352522889
+"venue_Arun Jaitley Stadium, Delhi",0.0005667212158515428
+"venue_Sardar Patel Stadium, Motera",0.0005625510406889516
+city_Dharamsala,0.0005469859792283098
+venue_Himachal Pradesh Cricket Association Stadium,0.0005465339158233459
+"venue_Punjab Cricket Association IS Bindra Stadium, Mohali",0.0005408578940235785
+venue_MA Chidambaram Stadium,0.0005181313600626372
+venue_St George's Park,0.0005124770132222464
+venue_SuperSport Park,0.0004899192060349427
+venue_Saurashtra Cricket Association Stadium,0.00047430143502584813
+team2_Gujarat Lions,0.00044715895687107604
+city_Cape Town,0.00041331159359270605
+city_Port Elizabeth,0.00040156602459403613
+city_Johannesburg,0.00039964849864780773
+city_Centurion,0.0003953256421151751
+city_Cuttack,0.0003893044438144242
+venue_Nehru Stadium,0.0003351620918302008
+venue_M.Chinnaswamy Stadium,0.00032846044600297005
+team1_Kochi Tuskers Kerala,0.000320486123085393
+"venue_Eden Gardens, Kolkata",0.00031945243617347106
+"venue_Rajiv Gandhi International Stadium, Uppal, Hyderabad",0.00031531919757622404
+venue_Newlands,0.000305628163460895
+city_Kochi,0.0003047941162347865
+venue_JSCA International Stadium Complex,0.00026075696432205386
+venue_Holkar Cricket Stadium,0.00025327413662595204
+"venue_M Chinnaswamy Stadium, Bengaluru",0.00024808519110076124
+"venue_Zayed Cricket Stadium, Abu Dhabi",0.0002331477630588367
+city_Ranchi,0.0002229264388544928
+city_Raipur,0.00021828117255571315
+city_Indore,0.0002177050292452227
+venue_Shaheed Veer Narayan Singh International Stadium,0.00021274808051911255
+city_Navi Mumbai,0.0002038787522357166
+city_Guwahati,0.00018571481128153446
+venue_Green Park,0.0001687981991989998
+"venue_Punjab Cricket Association IS Bindra Stadium, Mohali, Chandigarh",0.00016412447727337038
+"venue_Bharat Ratna Shri Atal Bihari Vajpayee Ekana Cricket Stadium, Lucknow",0.00014096191051950175
+city_Lucknow,0.0001394857986136836
+team2_Kochi Tuskers Kerala,0.00013833532344373594
+"venue_Barsapara Cricket Stadium, Guwahati",0.0001306471520150048
+"venue_Vidarbha Cricket Association Stadium, Jamtha",0.00010313256197929267
+venue_De Beers Diamond Oval,7.23000608030534e-05
+city_Kanpur,6.939854924182666e-05
+city_Nagpur,6.932373491249921e-05
+city_Kimberley,6.819692751778829e-05
+city_East London,4.176780694407442e-05
+"venue_Sawai Mansingh Stadium, Jaipur",3.0474146849813454e-05
+venue_Buffalo Park,2.364956434667201e-05
+"venue_Himachal Pradesh Cricket Association Stadium, Dharamsala",1.1142546334161233e-05
+city_Bloemfontein,8.679920596361891e-06
+venue_OUTsurance Oval,0.0

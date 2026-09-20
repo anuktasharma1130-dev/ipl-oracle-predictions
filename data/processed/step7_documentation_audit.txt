@@ -1,0 +1,99 @@
+================================================================================
+IPL ORACLE PREDICTIONS - STEP 7: DOCUMENTATION & REPOSITORY AUDIT REPORT
+================================================================================
+
+1. FILES INSPECTED
+  - Root: ipl.html, README.md, requirements-api.txt
+  - API: api/app.py, api/__init__.py, api/__pycache__/
+  - ML Pipeline:
+      * ml/__init__.py
+      * ml/parse_cricsheet.py
+      * ml/build_dataset.py
+      * ml/feature_engineering.py
+      * ml/train_model.py
+      * ml/evaluate_model.py
+      * ml/model_improvement.py
+      * ml/prediction_engine.py
+      * ml/test_prediction_engine.py
+      * ml/test_prediction_sanity.py
+  - Models:
+      * ml/models/pre_toss_improved_histgb.joblib (165.0 KB)
+      * ml/models/post_toss_improved_histgb.joblib (141.6 KB)
+      * ml/models/pre_toss_tuned_rf.joblib (2.10 MB)
+      * ml/models/post_toss_tuned_rf.joblib (2.19 MB)
+      * ml/models/pre_toss_model.joblib (14.75 MB)
+      * ml/models/post_toss_model.joblib (14.92 MB)
+  - Processed Data:
+      * data/processed/ipl_matches_base.csv (293.0 KB)
+      * data/processed/ipl_matches_features.csv (253.6 KB)
+      * data/processed/feature_importance_pre_toss.csv (7.3 KB)
+      * data/processed/feature_importance_post_toss.csv (7.4 KB)
+      * 8 PNG evaluation plots (99 KB – 128 KB)
+      * 7 TXT pipeline and testing reports
+
+2. FILES CREATED
+  - .gitignore: Root Git configuration excluding bytecode, virtualenvs, logs, and raw datasets.
+  - docs/ML_PIPELINE.md: Comprehensive ML pipeline, leakage prevention, and model architecture documentation.
+  - docs/API.md: Complete REST API documentation, endpoint definitions, and JSON schemas.
+  - data/processed/repository_audit.txt: Systematic classification of essential, optional, and large files.
+  - data/processed/step7_documentation_audit.txt: Final documentation and audit report.
+
+3. FILES MODIFIED
+  - README.md: Completely rewritten into an 18-section professional Data Science & Full Stack repository overview.
+
+4. README SECTIONS ADDED
+  1. Project Overview (probabilistic win forecasting, high T20 variance, pre/post-toss modes)
+  2. Key Features (verified 14-item feature capability list)
+  3. Technology Stack (Python, Pandas, NumPy, Scikit-learn, Joblib, Flask, Flask-CORS, Vanilla JS, HTML, CSS, Chart.js)
+  4. Dataset (1,243 Cricsheet files, 1,234 decisive matches, balanced 617/617 target)
+  5. Data Processing Pipeline (ASCII workflow diagram)
+  6. Feature Engineering (prior win rate, form, head-to-head, venue, Elo, momentum, home advantage, toss interactions)
+  7. Leakage Prevention Protocol (strict chronological splitting, sequential state accumulation, zero outcome leakage)
+  8. Model Development (baseline RF vs tuned RF vs HistGB vs Logistic Regression)
+  9. Final Evaluation Table (exact measured metrics on untouched 2025–2026 test set: 55.56% pre-toss HistGB accuracy)
+  10. Prediction Architecture (ASCII end-to-end dataflow diagram)
+  11. API Endpoints (GET /api/health, GET /api/model-info, POST /api/predict with real examples)
+  12. Frontend Integration (direct probability binding, loading states, error banners)
+  13. Testing (Steps 6A, 6B, 6C test suites, 24 query evaluations, zero failures, determinism)
+  14. Project Structure (exact ASCII repository tree)
+  15. How to Run Locally (step-by-step local launch instructions)
+  16. Limitations (high variance, unmodeled in-match factors, cold-start)
+  17. Future Scope (ball-by-ball tracking, granular player features, calibration, cloud deployment)
+  18. Disclaimer (mandatory probabilistic analytical disclaimer)
+
+5. .GITIGNORE RULES ADDED
+  - Byte-compiled caches: `__pycache__/`, `*.py[cod]`, `*$py.class`
+  - Virtual environments: `.env`, `.env.*`, `.venv`, `venv/`, `env/`
+  - IDE & editor configurations: `.vscode/`, `.idea/`, `*.swp`
+  - OS metadata: `.DS_Store`, `Thumbs.db`, `desktop.ini`
+  - Runtime logs & temporary data: `*.log`, `*.tmp`, `*.temp`, `scratch/`
+  - Raw datasets: `data/raw/`, `ipl_csv/`, `raw_data/`, `*.zip`, `*.tar.gz`
+
+6. LARGE-FILE FINDINGS
+  - `ml/models/post_toss_model.joblib`: 14.92 MB (Baseline 500-tree RF; below 100MB limit; recommend Git LFS or Releases)
+  - `ml/models/pre_toss_model.joblib`: 14.75 MB (Baseline 500-tree RF; below 100MB limit; recommend Git LFS or Releases)
+  - `ml/models/post_toss_tuned_rf.joblib`: 2.19 MB (Safe for direct commit)
+  - `ml/models/pre_toss_tuned_rf.joblib`: 2.10 MB (Safe for direct commit)
+  - `ml/models/pre_toss_improved_histgb.joblib`: 165.0 KB (Safe, active production model)
+  - `ml/models/post_toss_improved_histgb.joblib`: 141.6 KB (Safe, active production model)
+  - `data/processed/ipl_matches_base.csv`: 293.0 KB (Safe, required for inference accumulator)
+  - `data/processed/ipl_matches_features.csv`: 253.6 KB (Safe, feature dataset)
+  - No single file exceeds GitHub's 100 MB hard limit.
+
+7. REPOSITORY CLEANUP RECOMMENDATIONS
+  - All workspace files are organized, structured, and free of extraneous clutter.
+  - Bytecode caches (`__pycache__`) are successfully masked by `.gitignore`.
+  - Zero files deleted automatically, preserving full reproducibility.
+
+8. GIT STATUS SUMMARY
+  - Modified: `ipl.html`, `README.md`
+  - Untracked: `.gitignore`, `api/`, `data/`, `docs/`, `ml/`, `requirements-api.txt`
+  - Clean status with proper exclusions active.
+
+9. STRICT COMPLIANCE CONFIRMATION
+  - CONFIRMED: NO `git add` command was run.
+  - CONFIRMED: NO `git commit` command was run.
+  - CONFIRMED: NO `git push` command was run.
+  - CONFIRMED: NO models were retrained.
+  - CONFIRMED: NO code logic or feature engineering was modified.
+================================================================================

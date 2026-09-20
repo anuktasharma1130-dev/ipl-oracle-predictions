@@ -1,0 +1,162 @@
+================================================================================
+IPL ORACLE PREDICTIONS - STEP 6A: ML INFERENCE ENGINE & API TEST REPORT
+================================================================================
+
+1. FILES CREATED
+  - ml/prediction_engine.py:
+      Core inference engine class (PredictionEngine). Loads saved joblib pipelines,
+      validates fixture inputs, accumulates pre-match historical state without future
+      leakage, constructs exact 36 (pre-toss) or 40 (post-toss) feature DataFrames,
+      and calls pipeline.predict_proba().
+  - api/__init__.py:
+      Python package initialization for the Flask API service.
+  - api/app.py:
+      Flask REST API application with flask-cors enabled. Exposes GET /api/health,
+      GET /api/model-info, and POST /api/predict. Includes validation error handling (400)
+      and internal error handling (500).
+  - requirements-api.txt:
+      Minimal API runtime dependencies (Flask, flask-cors, scikit-learn, pandas, numpy, joblib).
+  - ml/test_prediction_engine.py:
+      Automated regression test suite with 9 unit test functions verifying model reload,
+      predictions, probability sums, input validation rules, and Flask endpoints.
+
+2. MODEL LOADING STATUS
+  - Pre-Toss Model:
+      Path: ml/models/pre_toss_improved_histgb.joblib
+      Status: Successfully loaded via joblib.load()
+      Type: scikit-learn Pipeline (ColumnTransformer + HistGradientBoostingClassifier)
+      Expected Features: 36 input columns
+  - Post-Toss Model:
+      Path: ml/models/post_toss_improved_histgb.joblib
+      Status: Successfully loaded via joblib.load()
+      Type: scikit-learn Pipeline (ColumnTransformer + HistGradientBoostingClassifier)
+      Expected Features: 40 input columns (36 base + 4 post-toss interaction features)
+  - Preprocessing Preservation:
+      Zero manual feature reconstruction outside the pipeline. The trained OneHotEncoder
+      and StandardScaler embedded in each pipeline's ColumnTransformer are used intact.
+  - predict_proba() Functional Check:
+      CONFIRMED. model.predict_proba() executes successfully after joblib reload.
+      Pre-toss sample output: [0.61187684, 0.38812316]
+      Post-toss sample output: [0.4564974, 0.5435026]
+
+3. EXPECTED INPUT SCHEMA
+  POST /api/predict accepts application/json:
+  {
+      "team1": str (required, e.g. "Mumbai Indians" or "MI"),
+      "team2": str (required, e.g. "Chennai Super Kings" or "CSK"),
+      "venue": str (required, e.g. "Wankhede Stadium"),
+      "city": str (optional, auto-derived from venue if omitted),
+      "toss_winner": str (optional, required if toss_decision is passed; must be team1 or team2),
+      "toss_decision": str (optional, required if toss_winner is passed; "bat" or "field")
+  }
+
+4. VALIDATION ERRORS TESTED & VERIFIED
+  - Identical Teams:
+      Input: team1="Mumbai Indians", team2="Mumbai Indians"
+      Result: HTTP 400 Bad Request ("team1 and team2 must be different teams.")
+  - Team Code Alias Identical:
+      Input: team1="MI", team2="Mumbai Indians"
+      Result: HTTP 400 Bad Request ("team1 and team2 must be different teams.")
+  - Unknown Team:
+      Input: team1="Mars Invaders", team2="Chennai Super Kings"
+      Result: HTTP 400 Bad Request ("Unknown team 'Mars Invaders'. Must be one of the known IPL franchises...")
+  - Invalid Toss Winner:
+      Input: team1="Mumbai Indians", team2="CSK", toss_winner="Kolkata Knight Riders"
+      Result: HTTP 400 Bad Request ("toss_winner 'Kolkata Knight Riders' must be either team1 or team2.")
+  - Invalid Toss Decision:
+      Input: toss_decision="sleep"
+      Result: HTTP 400 Bad Request ("toss_decision 'sleep' must be either 'bat' or 'field'.")
+  - Partial Toss Information:
+      Input: toss_winner="Mumbai Indians", toss_decision omitted
+      Result: HTTP 400 Bad Request ("toss_decision must be specified when toss_winner is provided.")
+
+5. PROBABILITY SUMS & SAMPLE PREDICTION OUTPUTS
+
+  Fixture 1 (Pre-Toss): Mumbai Indians vs Chennai Super Kings @ Wankhede Stadium, Mumbai
+    - Model Selected: pre_toss
+    - Team 1 Win Probability: 0.3881 (38.81%)
+    - Team 2 Win Probability: 0.6119 (61.19%)
+    - Probability Sum: 1.0000
+    - Predicted Winner: Chennai Super Kings
+    - Confidence: High (prob difference >= 0.20)
+    - Key Matchup Metrics: MI Elo=1454.0, CSK Elo=1467.0 (Elo diff=-13.0), H2H=41 matches (MI win rate=51.22%)
+
+  Fixture 2 (Pre-Toss): Kolkata Knight Riders vs Royal Challengers Bangalore @ Eden Gardens, Kolkata
+    - Model Selected: pre_toss
+    - Team 1 Win Probability: 0.3609 (36.09%)
+    - Team 2 Win Probability: 0.6391 (63.91%)
+    - Probability Sum: 1.0000
+    - Predicted Winner: Royal Challengers Bangalore
+    - Confidence: High
+    - Key Matchup Metrics: KKR Elo=1530.0, RCB Elo=1641.0 (Elo diff=-111.0), H2H=36 matches (KKR win rate=55.56%)
+
+  Fixture 3 (Pre-Toss): Delhi Capitals vs Punjab Kings @ Arun Jaitley Stadium, Delhi
+    - Model Selected: pre_toss
+    - Team 1 Win Probability: 0.3571 (35.71%)
+    - Team 2 Win Probability: 0.6429 (64.29%)
+    - Probability Sum: 1.0000
+    - Predicted Winner: Punjab Kings
+    - Confidence: High
+    - Key Matchup Metrics: DC Elo=1538.6, PBKS Elo=1521.4 (Elo diff=+17.2), H2H=36 matches (DC win rate=50.0%)
+
+  Fixture 4 (Post-Toss): Gujarat Titans vs Rajasthan Royals @ Narendra Modi Stadium, Ahmedabad
+    - Toss: Gujarat Titans won toss and elected to field
+    - Model Selected: post_toss
+    - Team 1 Win Probability: 0.5591 (55.91%)
+    - Team 2 Win Probability: 0.4409 (44.09%)
+    - Probability Sum: 1.0000
+    - Predicted Winner: Gujarat Titans
+    - Confidence: Medium (prob difference >= 0.06)
+    - Key Matchup Metrics: GT Elo=1581.3, RR Elo=1514.2 (Elo diff=+67.1), H2H=11 matches (GT win rate=72.73%), GT Chasing=True
+
+6. API ENDPOINT TEST RESULTS
+  - GET /api/health:
+      HTTP 200 OK
+      Response: {"service": "IPL Oracle ML API", "status": "ok"}
+  - GET /api/model-info:
+      HTTP 200 OK
+      Response: Returns detailed metadata covering available models, pipeline architectures,
+      feature column specifications, split statistics (Train 1029, Val 71, Test 134), and supported teams.
+  - POST /api/predict:
+      HTTP 200 OK for valid pre-toss & post-toss inputs.
+      HTTP 400 Bad Request for validation errors with clear error messages.
+  - CORS Status:
+      CORS enabled across all /api/* routes via flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}}).
+      Ready for direct integration with frontend ipl.html or local development servers.
+
+7. MODEL SELECTION & BENCHMARK AUDIT NOTE
+  - Pre-toss selected model = HistGradientBoostingClassifier:
+      * 2024 Validation Accuracy: 52.11%, ROC-AUC: 0.4754
+      * 2025-2026 Test Accuracy: 55.56%, ROC-AUC: 0.5403, Log Loss: 0.7013
+  - Post-toss candidate models and their validation/test metrics:
+      * HistGradientBoosting (Improved Post-Toss):
+          Val Accuracy: 47.89%, Val ROC-AUC: 0.4349
+          Test Accuracy: 50.69%, Test ROC-AUC: 0.4766, Test Loss: 0.7023
+      * Tuned Random Forest (Post-Toss):
+          Val Accuracy: 40.85%, Val ROC-AUC: 0.4111
+          Test Accuracy: 53.47%, Test ROC-AUC: 0.4760, Test Loss: 0.6936
+      * Baseline Random Forest (Post-Toss):
+          Val Accuracy: 47.89%, Val ROC-AUC: 0.4071
+          Test Accuracy: 49.31%, Test ROC-AUC: 0.4616, Test Loss: 0.7075
+      * Logistic Regression (Post-Toss Benchmark):
+          Val Accuracy: 49.30%, Val ROC-AUC: 0.5127
+          Test Accuracy: 45.14%, Test ROC-AUC: 0.4217, Test Loss: 0.7409
+  - Saved Post-Toss Model:
+      The saved post-toss model artifact at ml/models/post_toss_improved_histgb.joblib is
+      HistGradientBoostingClassifier (scikit-learn Pipeline with ColumnTransformer).
+      Note: No model is described as "best" or "high-performing". Metrics reflect measured performance.
+
+8. KNOWN LIMITATIONS
+  - Historical state accumulator reflects match outcomes up through the final match of the historical
+    dataset (1,234 matches). Matches beyond the historical dataset require feeding updated base matches.
+  - Single-tree-split estimators without explicit ball-by-ball player availability rely on macro team-level
+    and venue-level dynamics; player injuries, player auction transfers, or squad changes are not modeled.
+
+9. EXACT COMMAND TO START THE API
+  Command:
+    python api/app.py
+
+  Or using the Flask CLI:
+    $env:FLASK_APP="api.app"
+    flask run --host=127.0.0.1 --port=5000
+================================================================================

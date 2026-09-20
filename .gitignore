@@ -1,0 +1,80 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.env
+.env.*
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Temporary and scratch files
+*.tmp
+*.temp
+scratch/
+
+# Raw dataset directory (if downloaded locally)
+data/raw/
+ipl_csv/
+raw_data/
+*.zip
+*.tar.gz
+
+# Historical / candidate model artifacts (not used in production)
+ml/models/pre_toss_model.joblib
+ml/models/post_toss_model.joblib
+ml/models/pre_toss_tuned_rf.joblib
+ml/models/post_toss_tuned_rf.joblib
+

@@ -1,0 +1,96 @@
+================================================================================
+IPL ORACLE PREDICTIONS - REPOSITORY AUDIT & CLEANUP RECOMMENDATIONS
+================================================================================
+
+1. ESSENTIAL FILES (MUST BE COMMITTED)
+  The following files are essential for application execution, model inference,
+  API serving, web interface display, and reproducible testing:
+
+  - Root Configuration:
+      * .gitignore (Repository ignore rules)
+      * README.md (Comprehensive project documentation)
+      * requirements-api.txt (Runtime dependencies for API & inference)
+      * ipl.html (Production web application frontend)
+  - API Service Layer:
+      * api/__init__.py (Package initialization)
+      * api/app.py (Flask REST API service with CORS support)
+  - Core ML Pipeline & Inference:
+      * ml/__init__.py (Package initialization)
+      * ml/parse_cricsheet.py (Recursive Cricsheet data parser)
+      * ml/build_dataset.py (Decisive match filtering & target builder)
+      * ml/feature_engineering.py (Chronological feature engineering engine)
+      * ml/train_model.py (Baseline model training pipeline)
+      * ml/evaluate_model.py (Evaluation metrics & confusion matrix generator)
+      * ml/model_improvement.py (Model improvement, HistGB training & tuning)
+      * ml/prediction_engine.py (Production inference engine with predict_proba)
+      * ml/test_prediction_engine.py (Unit test & regression test suite)
+      * ml/test_prediction_sanity.py (Black-box sanity & robustness test suite)
+  - Production Trained Models:
+      * ml/models/pre_toss_improved_histgb.joblib (165.0 KB — active pre-toss model)
+      * ml/models/post_toss_improved_histgb.joblib (141.6 KB — active post-toss model)
+  - Processed Base Datasets:
+      * data/processed/ipl_matches_base.csv (293.0 KB — required for inference engine state)
+      * data/processed/ipl_matches_features.csv (253.6 KB — feature matrix for model training)
+  - Technical Documentation:
+      * docs/ML_PIPELINE.md (Full ML pipeline architecture documentation)
+      * docs/API.md (REST API schema and developer guide)
+
+2. GENERATED EVALUATION REPORTS & VISUALIZATIONS (SAFE TO COMMIT)
+  These artifacts document the chronological evaluation protocol, feature importance,
+  and benchmark comparisons across Steps 1 through 6C:
+
+  - Performance Charts & Plots:
+      * data/processed/model_comparison_chart.png (127.6 KB)
+      * data/processed/feature_importance_improved_pre_toss.png (106.5 KB)
+      * data/processed/feature_importance_pre_toss.png (99.2 KB)
+      * data/processed/feature_importance_post_toss.png (100.3 KB)
+      * data/processed/confusion_matrix_improved_pre_toss.png (99.1 KB)
+      * data/processed/confusion_matrix_improved_post_toss.png (101.7 KB)
+      * data/processed/confusion_matrix_pre_toss.png (101.7 KB)
+      * data/processed/confusion_matrix_post_toss.png (104.6 KB)
+      * data/processed/feature_importance_pre_toss.csv (7.3 KB)
+      * data/processed/feature_importance_post_toss.csv (7.4 KB)
+  - Pipeline Audit Reports:
+      * data/processed/data_quality_report.txt (2.3 KB)
+      * data/processed/feature_engineering_report.txt (3.7 KB)
+      * data/processed/model_evaluation_report.txt (5.1 KB)
+      * data/processed/model_improvement_report.txt (7.7 KB)
+      * data/processed/step6_api_test_report.txt (8.5 KB)
+      * data/processed/step6b_frontend_api_integration_report.txt (8.3 KB)
+      * data/processed/step6c_prediction_sanity_report.txt (9.9 KB)
+
+3. LARGE FILES AUDIT & RECOMMENDATIONS
+  - Baseline Random Forest Models:
+      * ml/models/post_toss_model.joblib (14.92 MB)
+      * ml/models/pre_toss_model.joblib (14.75 MB)
+      GitHub Recommendation:
+      Both files are below GitHub's 100 MB hard limit and can be committed directly.
+      However, because the active inference engine uses the lightweight HistGB models
+      (~142–165 KB), these baseline models can optionally be stored via Git LFS or attached
+      to a GitHub Release if minimizing clone size is prioritized.
+  - Tuned Random Forest Models:
+      * ml/models/post_toss_tuned_rf.joblib (2.19 MB)
+      * ml/models/pre_toss_tuned_rf.joblib (2.10 MB)
+      GitHub Recommendation:
+      Safe and suitable for direct Git commit.
+
+4. FILES THAT SHOULD NOT BE COMMITTED (EXCLUDED VIA .gitignore)
+  - Python Bytecode:
+      * api/__pycache__/ (Ignored)
+      * ml/__pycache__/ (Ignored)
+      * *.pyc, *.pyo (Ignored)
+  - Raw Cricsheet Datasets:
+      * 1,243 raw CSV files at external download path (Ignored by .gitignore)
+  - Local Virtual Environments:
+      * .venv/, venv/, env/ (Ignored)
+  - System/IDE files:
+      * .vscode/, .idea/, *.log, .DS_Store, Thumbs.db (Ignored)
+
+5. CANDIDATES FOR REMOVAL (REQUIRES MANUAL APPROVAL)
+  The following files were created in external scratch/artifact directories during development
+  testing and are NOT inside the Git repository:
+  - Artifact scratch files located in IDE Application Data (scratch/*.py, scratch/*.js):
+      * Candidate for removal — requires manual approval: <appDataDir>/brain/<conversation_id>/scratch/
+  - All files within the Git workspace (c:\Projects\ipl-oracle-predictions) are organized,
+    tracked properly, and free of extraneous clutter. Zero files were deleted automatically.
+================================================================================

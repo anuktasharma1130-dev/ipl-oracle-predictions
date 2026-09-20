@@ -1,0 +1,69 @@
+============================================================
+IPL ORACLE PREDICTIONS - DATA QUALITY REPORT
+============================================================
+
+1. FILE INGESTION SUMMARY
+  Total CSV files found:          1243
+  Successfully parsed files:      1243
+  Failed files:                   0
+
+2. MATCH OUTCOMES BREAKDOWN
+  Total matches parsed:           1243
+  Matches with decisive winner:   1234
+  Matches with Super Over:        16
+  No-result / Abandoned matches:  9
+  ML-Ready usable matches:        1234
+  Excluded matches:               9
+
+3. TEMPORAL COVERAGE
+  Date range:                     2008-04-18 to 2026-05-31
+  Total seasons available:        19
+  Seasons list:                   2007/08, 2009, 2009/10, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020/21, 2021, 2022, 2023, 2024, 2025, 2026
+
+4. TEAMS & VENUES
+  Unique normalized teams (15):
+    - Chennai Super Kings
+    - Deccan Chargers
+    - Delhi Capitals
+    - Gujarat Lions
+    - Gujarat Titans
+    - Kochi Tuskers Kerala
+    - Kolkata Knight Riders
+    - Lucknow Super Giants
+    - Mumbai Indians
+    - Pune Warriors
+    - Punjab Kings
+    - Rajasthan Royals
+    - Rising Pune Supergiant
+    - Royal Challengers Bangalore
+    - Sunrisers Hyderabad
+
+  Unique venues count:            60
+
+5. TARGET CLASS DISTRIBUTION (team1_win in usable dataset)
+  Class 0 (Team 2 Win): 617 matches (50.00%)
+  Class 1 (Team 1 Win): 617 matches (50.00%)
+
+6. MISSING VALUES BY IMPORTANT COLUMN (Usable Dataset)
+  match_id            : 0 missing
+  season              : 0 missing
+  date                : 0 missing
+  venue               : 0 missing
+  city                : 0 missing
+  team1               : 0 missing
+  team2               : 0 missing
+  toss_winner         : 0 missing
+  toss_decision       : 0 missing
+  winner              : 0 missing
+  team1_win           : 0 missing
+  match_status        : 0 missing
+  team1_orig          : 0 missing
+  team2_orig          : 0 missing
+  toss_winner_orig    : 0 missing
+  winner_orig         : 0 missing
+  eliminator          : 1218 missing
+  player_of_match     : 0 missing
+
+7. PARSING ERRORS: None (100% success)
+
+============================================================

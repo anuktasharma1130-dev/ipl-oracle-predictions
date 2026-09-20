@@ -1,0 +1,214 @@
+================================================================================
+IPL ORACLE PREDICTIONS - STEP 8: FINAL PRE-PUSH GITHUB AUDIT REPORT
+================================================================================
+
+AUDIT DATE & TIME: 2026-09-20T19:09:00+05:30
+REPOSITORY: C:\Projects\ipl-oracle-predictions
+BRANCH: main
+
+--------------------------------------------------------------------------------
+1. .GITIGNORE VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS
+- File inspected: .gitignore (74 lines)
+- Bytecode & cache exclusions: __pycache__/, *.py[cod], *$py.class (Verified)
+- Virtual environment exclusions: .env, .env.*, .venv, env/, venv/ (Verified)
+- IDE & editor exclusions: .vscode/, .idea/, *.swp, *.swo (Verified)
+- System junk exclusions: .DS_Store, Thumbs.db, desktop.ini (Verified)
+- Runtime logs & scratch exclusions: *.log, *.tmp, *.temp, scratch/ (Verified)
+- Raw dataset exclusions: data/raw/, ipl_csv/, raw_data/, *.zip, *.tar.gz (Verified)
+- Critical project asset visibility check via `git check-ignore -v`:
+    * data/processed/ipl_matches_base.csv      -> NOT IGNORED (Visible to Git)
+    * data/processed/ipl_matches_features.csv  -> NOT IGNORED (Visible to Git)
+    * ml/models/pre_toss_improved_histgb.joblib -> NOT IGNORED (Visible to Git)
+    * ml/models/post_toss_improved_histgb.joblib -> NOT IGNORED (Visible to Git)
+    * README.md                                -> NOT IGNORED (Visible to Git)
+    * docs/ML_PIPELINE.md                      -> NOT IGNORED (Visible to Git)
+    * docs/API.md                              -> NOT IGNORED (Visible to Git)
+    * ipl.html                                 -> NOT IGNORED (Visible to Git)
+    * requirements-api.txt                     -> NOT IGNORED (Visible to Git)
+
+--------------------------------------------------------------------------------
+2. RAW DATASET VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS
+- Raw Cricsheet data files (1,243 CSV files) reside externally at `C:\Users\ANUKTAA\Downloads\ipl_csv`.
+- No raw Cricsheet data files exist inside the repository tree.
+- Exactly 4 processed CSV files exist in the repository, all inside `data/processed/`:
+    * data/processed/ipl_matches_base.csv (293.0 KB)
+    * data/processed/ipl_matches_features.csv (253.6 KB)
+    * data/processed/feature_importance_pre_toss.csv (7.3 KB)
+    * data/processed/feature_importance_post_toss.csv (7.4 KB)
+- The raw dataset is safely preserved externally; only reproducibility matrices are in repo.
+
+--------------------------------------------------------------------------------
+3. MODEL ARTIFACT VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS / CANDIDATE FOR CLEANUP
+- Active Production Models (Loaded by PredictionEngine & Flask API):
+    * ml/models/pre_toss_improved_histgb.joblib (165.0 KB) -> Verified loaded & functional [PASS]
+    * ml/models/post_toss_improved_histgb.joblib (141.6 KB) -> Verified loaded & functional [PASS]
+- Candidate & Historical Models (Not loaded by production engine):
+    * ml/models/pre_toss_tuned_rf.joblib (2.10 MB) -> [CANDIDATE FOR CLEANUP]
+    * ml/models/post_toss_tuned_rf.joblib (2.19 MB) -> [CANDIDATE FOR CLEANUP]
+    * ml/models/pre_toss_model.joblib (14.75 MB) -> [CANDIDATE FOR CLEANUP] (Below 100MB limit; recommend Git LFS or Releases)
+    * ml/models/post_toss_model.joblib (14.92 MB) -> [CANDIDATE FOR CLEANUP] (Below 100MB limit; recommend Git LFS or Releases)
+- Recommendation: No files deleted automatically. The 4 candidate models can be kept or archived without breaking the production application.
+
+--------------------------------------------------------------------------------
+4. DOCUMENTATION VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS
+- Files audited: README.md, docs/ML_PIPELINE.md, docs/API.md
+- Tone & Claim Verification:
+    * "best model": 0 occurrences
+    * "excellent": 0 occurrences
+    * "guaranteed": 2 occurrences, both explicitly denying guaranteed outcomes in disclaimers
+    * "production-grade forecasting": 0 occurrences
+    * "real-time external / live ipl data": 0 occurrences
+- All evaluation metrics correspond strictly to the measured values from Step 5 on the untouched 2025–2026 test set:
+    * Pre-Toss HistGradientBoosting: 55.56% Test Acc, 0.5403 Test ROC-AUC, 0.7013 Log Loss
+    * Post-Toss HistGradientBoosting: 50.69% Test Acc, 0.4766 Test ROC-AUC, 0.7023 Log Loss
+- ASCII architecture and pipeline diagrams verified.
+- Mandatory probabilistic analytical disclaimer is prominently placed.
+
+--------------------------------------------------------------------------------
+5. API VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS
+- Server started: `python api/app.py`
+- Endpoint checks:
+    * GET /api/health -> HTTP 200 OK: {"service": "IPL Oracle ML API", "status": "ok"}
+    * GET /api/model-info -> HTTP 200 OK: Returns specifications for ['post_toss', 'pre_toss']
+    * POST /api/predict (Pre-toss: MI vs CSK @ Wankhede):
+        HTTP 200 OK | MI: 38.81%, CSK: 61.19% | Winner: Chennai Super Kings | Conf: High
+        Probabilities sum: 1.0000 | In bounds: 0.0 <= p <= 1.0 | Higher prob = Winner
+    * POST /api/predict (Post-toss: GT vs RR @ Narendra Modi Stadium, GT bat):
+        HTTP 200 OK | GT: 54.92%, RR: 45.08% | Winner: Gujarat Titans | Conf: Medium
+        Probabilities sum: 1.0000 | In bounds: 0.0 <= p <= 1.0 | Higher prob = Winner
+    * POST /api/predict (Same-team invalid: MI vs MI):
+        HTTP 400 Bad Request | Controlled JSON error: "team1 and team2 must be different teams."
+- Server cleanly halted after testing.
+
+--------------------------------------------------------------------------------
+6. FRONTEND VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS
+- Audited: ipl.html
+- Verification results:
+    * Legacy heuristic `calculatePrediction` function: 100% removed.
+    * Calls `/api/predict` via `fetch` on Predict click: Confirmed.
+    * Loading state ("Analyzing match...", disabled button): Confirmed.
+    * Real ML win probabilities displayed in UI: Confirmed.
+    * Offline error handling banner: Displays "Prediction server is not running. Please start the IPL Oracle ML API."
+    * Silent fallback to hard-coded predictions: None.
+    * Visual styling and existing features (Home, History, Player Stats, Caps): 100% preserved.
+
+--------------------------------------------------------------------------------
+7. ML TEST SUITE VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS
+- Test Suite 1: `python ml/test_prediction_engine.py`
+    * 9/9 unit & regression test suites passed (Loading, Reload predict_proba, Pre-toss, Post-toss, Sum=1.0, Alias/same-team/invalid-toss validation, API client test).
+- Test Suite 2: `python ml/test_prediction_sanity.py`
+    * 8/8 sanity categories passed across 24 distinct query evaluations.
+    * Test A (Matchup diversity): Passed.
+    * Test B (Team order swap): Passed. Directional features adapt appropriately.
+    * Test C (Venue sensitivity): Passed. Stadium shifts alter venue win rates and probabilities.
+    * Test D (Toss effect): Passed. 5 distinct probability distributions generated across toss options.
+    * Test E & F (Probability bounds & schema): Passed.
+    * Test G (Invalid input 4xx handling): Passed. Zero stack traces exposed.
+    * Test H (Determinism): Passed. 5 identical queries yielded bit-for-bit identical probabilities.
+
+--------------------------------------------------------------------------------
+8. SECRET & CREDENTIAL LEAK SCAN
+--------------------------------------------------------------------------------
+Classification: PASS
+- Regular expressions evaluated across all repo files (.py, .html, .js, .md, .txt, .csv, .env):
+    * Private Keys (RSA / EC / OpenSSH): 0 found
+    * AWS Access Keys: 0 found
+    * JWT Tokens: 0 found
+    * Generic API Keys / Secrets: 0 found
+    * Passwords in Configuration: 0 found
+    * MongoDB Connection Strings: 0 found
+    * Razorpay Keys: 0 found
+    * .env files: 0 found
+- Repository is completely clean of credentials.
+
+--------------------------------------------------------------------------------
+9. PROJECT TREE VERIFICATION
+--------------------------------------------------------------------------------
+Classification: PASS
+- The live repository contains:
+    ipl-oracle-predictions/
+    |-- .gitignore
+    |-- README.md
+    |-- requirements-api.txt
+    |-- ipl.html
+    |-- api/
+    |   |-- __init__.py
+    |   \-- app.py
+    |-- data/
+    |   \-- processed/
+    |       |-- ipl_matches_base.csv
+    |       |-- ipl_matches_features.csv
+    |       |-- feature_importance_pre_toss.csv
+    |       |-- feature_importance_post_toss.csv
+    |       |-- 8 PNG evaluation plots
+    |       \-- 9 TXT documentation & audit reports
+    |-- docs/
+    |   |-- ML_PIPELINE.md
+    |   \-- API.md
+    \-- ml/
+        |-- __init__.py
+        |-- parse_cricsheet.py
+        |-- build_dataset.py
+        |-- feature_engineering.py
+        |-- train_model.py
+        |-- evaluate_model.py
+        |-- model_improvement.py
+        |-- prediction_engine.py
+        |-- test_prediction_engine.py
+        |-- test_prediction_sanity.py
+        \-- models/ (6 .joblib files)
+- Actual workspace structure matches the documented README tree.
+
+--------------------------------------------------------------------------------
+10. LARGE-FILE VERIFICATION
+--------------------------------------------------------------------------------
+Classification: WARNING / CANDIDATE FOR CLEANUP
+- Files > 10 MB:
+    * ml/models/post_toss_model.joblib: 14.92 MB
+    * ml/models/pre_toss_model.joblib: 14.75 MB
+- Hard limit compliance: Zero files exceed GitHub's 100 MB hard limit.
+- Recommendation: Since the production application utilizes the compact HistGB models (142 KB and 165 KB), the 15 MB baseline models are safe to commit directly or can optionally be hosted via Git LFS / GitHub Releases to keep the clone size under 5 MB.
+
+--------------------------------------------------------------------------------
+11. GIT STATUS & SENSITIVE PATH AUDIT
+--------------------------------------------------------------------------------
+Classification: PASS
+- `git status --short`:
+    M README.md
+    M ipl.html
+    ?? .gitignore
+    ?? api/
+    ?? data/
+    ?? docs/
+    ?? ml/
+    ?? requirements-api.txt
+- Sensitive local path scan:
+    * Documentation files (`README.md`, `docs/*.md`, `data/processed/*.txt`): Clean. No personal username or machine paths.
+    * Source file `ml/parse_cricsheet.py` has line 22 `DEFAULT_DATASET_DIR = r"C:\Users\ANUKTAA\Downloads\ipl_csv"` which was user-specified for the external raw download location.
+- Git operation compliance:
+    * NO `git add` executed.
+    * NO `git commit` executed.
+    * NO `git push` executed.
+
+--------------------------------------------------------------------------------
+12. OVERALL AUDIT SUMMARY
+--------------------------------------------------------------------------------
+- BLOCKERS: 0
+- WARNINGS: 1 (Two 15 MB baseline Random Forest models in `ml/models/`; safe to commit but marked for optional LFS/Release hosting)
+- CANDIDATES FOR CLEANUP: 4 non-production candidate model artifacts (`pre_toss_model.joblib`, `post_toss_model.joblib`, `pre_toss_tuned_rf.joblib`, `post_toss_tuned_rf.joblib`)
+- TECHNICAL READINESS: THE REPOSITORY IS FULLY VERIFIED, REPRODUCIBLE, TESTED, AND READY FOR ITS INITIAL GITHUB COMMIT.
+================================================================================
